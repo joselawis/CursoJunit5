@@ -6,9 +6,12 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.math.BigDecimal;
 
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.lawis.junitapp.ejemplo.exceptions.NotEnoughMoneyException;
@@ -110,6 +113,13 @@ class AccountTest {
     }
 
     @Test
+    @Disabled("This test is disabled for demonstration purposes")
+    void testDisabled() {
+        fail("This test is disabled and should not run");
+    }
+
+    @Test
+    @DisplayName("Test relation between Bank and Account")
     void testRelationBankAccount() {
         Account from = new Account("Alice", new BigDecimal("500.00"));
         Account to = new Account("Bob", new BigDecimal("300.00"));
@@ -136,7 +146,7 @@ class AccountTest {
                         .findFirst().isPresent()),
                 () -> assertTrue(bank.getAccounts().stream()
                         .filter(a -> a.getPerson().equals("Bob"))
-                        .findFirst().isPresent()),
+                        .findFirst().isPresent(), () -> "Bob account should be present in the bank"),
 
                 () -> assertTrue(bank.getAccounts().stream()
                         .anyMatch(a -> "Alice".equals(a.getPerson()))),
