@@ -75,4 +75,16 @@ class AccountTest {
         assertEquals(1100, account.getBalance().intValue());
         assertEquals("1100.12346", account.getBalance().toPlainString());
     }
+
+    @Test
+    void testTransferMoneyAccounts() {
+        Account from = new Account("Alice", new BigDecimal("500.00"));
+        Account to = new Account("Bob", new BigDecimal("300.00"));
+
+        Bank bank = new Bank("My Bank");
+        bank.transfer(from, to, new BigDecimal("200.00"));
+
+        assertEquals(new BigDecimal("300.00"), from.getBalance());
+        assertEquals(new BigDecimal("500.00"), to.getBalance());
+    }
 }
