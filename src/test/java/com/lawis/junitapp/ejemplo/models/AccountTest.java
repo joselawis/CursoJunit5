@@ -107,4 +107,43 @@ class AccountTest {
         assertEquals(new BigDecimal("300.00"), to.getBalance());
 
     }
+
+    @Test
+    void testRelationBankAccount() {
+        Account from = new Account("Alice", new BigDecimal("500.00"));
+        Account to = new Account("Bob", new BigDecimal("300.00"));
+
+        Bank bank = new Bank("My Bank");
+        bank.addAccount(from);
+        bank.addAccount(to);
+
+        assertEquals(2, bank.getAccounts().size());
+
+        assertTrue(bank.getAccounts().contains(from));
+        assertTrue(bank.getAccounts().contains(to));
+
+        assertEquals(bank, from.getBank());
+        assertEquals(bank, to.getBank());
+
+        assertEquals("Alice",
+                bank.getAccounts().stream()
+                        .filter(a -> a.getPerson().equals("Alice"))
+                        .findFirst().get().getPerson());
+        assertEquals("Bob",
+                bank.getAccounts().stream()
+                        .filter(a -> a.getPerson().equals("Bob"))
+                        .findFirst().get().getPerson());
+
+        assertTrue(bank.getAccounts().stream()
+                .filter(a -> a.getPerson().equals("Alice"))
+                .findFirst().isPresent());
+        assertTrue(bank.getAccounts().stream()
+                .filter(a -> a.getPerson().equals("Bob"))
+                .findFirst().isPresent());
+
+        assertTrue(bank.getAccounts().stream()
+                .anyMatch(a -> "Alice".equals(a.getPerson())));
+        assertTrue(bank.getAccounts().stream()
+                .anyMatch(a -> "Bob".equals(a.getPerson())));
+    }
 }

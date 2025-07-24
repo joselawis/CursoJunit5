@@ -26,6 +26,7 @@ public class Bank {
 
     public void addAccount(Account account) {
         accounts.add(account);
+        account.setBank(this);
     }
 
 }
