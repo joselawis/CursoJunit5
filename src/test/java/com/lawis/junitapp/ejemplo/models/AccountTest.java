@@ -40,7 +40,6 @@ class AccountTest {
         Account account1 = new Account("John Doe", new BigDecimal("1000.12346"));
         Account account2 = new Account("John Doe", new BigDecimal("1000.12346"));
 
-        // assertNotEquals(account2, account1);
         assertEquals(account2, account1);
     }
 
