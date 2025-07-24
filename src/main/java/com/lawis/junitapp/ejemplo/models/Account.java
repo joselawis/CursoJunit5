@@ -18,4 +18,12 @@ public class Account {
     @NonNull
     private BigDecimal balance;
 
+    public void debit(BigDecimal amount) {
+
+    }
+
+    public void credit(BigDecimal amount) {
+
+    }
+
 }
