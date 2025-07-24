@@ -10,17 +10,26 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.math.BigDecimal;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import com.lawis.junitapp.ejemplo.exceptions.NotEnoughMoneyException;
 
+// @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class AccountTest {
 
     private Account account;
+
+    @BeforeAll
+    static void beforeAll() {
+        System.out.println("Setting up before all tests");
+    }
 
     @BeforeEach
     void setUp() {
@@ -31,6 +40,11 @@ class AccountTest {
     @AfterEach
     void tearDown() {
         System.out.println("Cleaning up after each test");
+    }
+
+    @AfterAll
+    static void afterAll() {
+        System.out.println("Cleaning up after all tests");
     }
 
     @Test
