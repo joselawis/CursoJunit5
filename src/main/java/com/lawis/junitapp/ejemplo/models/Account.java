@@ -20,6 +20,8 @@ public class Account {
     @NonNull
     private BigDecimal balance;
 
+    private Bank bank;
+
     public void debit(BigDecimal amount) throws NotEnoughMoneyException {
         BigDecimal newBalance = this.balance.subtract(amount);
         if (newBalance.compareTo(BigDecimal.ZERO) < 0) {
