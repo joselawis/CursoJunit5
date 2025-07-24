@@ -1,5 +1,6 @@
 package com.lawis.junitapp.ejemplo.models;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -116,34 +117,30 @@ class AccountTest {
         Bank bank = new Bank("My Bank");
         bank.addAccount(from);
         bank.addAccount(to);
+        assertAll(
+                () -> assertEquals(2, bank.getAccounts().size()),
+                () -> assertTrue(bank.getAccounts().contains(from)),
+                () -> assertTrue(bank.getAccounts().contains(to)),
+                () -> assertEquals(bank, from.getBank()),
+                () -> assertEquals("Alice",
+                        bank.getAccounts().stream()
+                                .filter(a -> a.getPerson().equals("Alice"))
+                                .findFirst().get().getPerson()),
+                () -> assertEquals("Bob",
+                        bank.getAccounts().stream()
+                                .filter(a -> a.getPerson().equals("Bob"))
+                                .findFirst().get().getPerson()),
 
-        assertEquals(2, bank.getAccounts().size());
-
-        assertTrue(bank.getAccounts().contains(from));
-        assertTrue(bank.getAccounts().contains(to));
-
-        assertEquals(bank, from.getBank());
-        assertEquals(bank, to.getBank());
-
-        assertEquals("Alice",
-                bank.getAccounts().stream()
+                () -> assertTrue(bank.getAccounts().stream()
                         .filter(a -> a.getPerson().equals("Alice"))
-                        .findFirst().get().getPerson());
-        assertEquals("Bob",
-                bank.getAccounts().stream()
+                        .findFirst().isPresent()),
+                () -> assertTrue(bank.getAccounts().stream()
                         .filter(a -> a.getPerson().equals("Bob"))
-                        .findFirst().get().getPerson());
+                        .findFirst().isPresent()),
 
-        assertTrue(bank.getAccounts().stream()
-                .filter(a -> a.getPerson().equals("Alice"))
-                .findFirst().isPresent());
-        assertTrue(bank.getAccounts().stream()
-                .filter(a -> a.getPerson().equals("Bob"))
-                .findFirst().isPresent());
-
-        assertTrue(bank.getAccounts().stream()
-                .anyMatch(a -> "Alice".equals(a.getPerson())));
-        assertTrue(bank.getAccounts().stream()
-                .anyMatch(a -> "Bob".equals(a.getPerson())));
+                () -> assertTrue(bank.getAccounts().stream()
+                        .anyMatch(a -> "Alice".equals(a.getPerson()))),
+                () -> assertTrue(bank.getAccounts().stream()
+                        .anyMatch(a -> "Bob".equals(a.getPerson()))));
     }
 }
