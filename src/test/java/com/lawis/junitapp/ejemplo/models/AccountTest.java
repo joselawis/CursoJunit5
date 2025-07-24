@@ -58,8 +58,9 @@ class AccountTest {
     void testDebitNotEnoughMoneyException() {
         Account account = new Account("John Doe", new BigDecimal("1000.12346"));
 
+        BigDecimal amount = new BigDecimal("1100.00");
         Exception exception = assertThrows(NotEnoughMoneyException.class,
-                () -> account.debit(new BigDecimal("1100.00")));
+                () -> account.debit(amount));
 
         String actualMessage = exception.getMessage();
         String expectedMessage = "Not enough money in the account";
