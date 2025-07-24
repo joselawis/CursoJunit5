@@ -3,6 +3,7 @@ package com.lawis.junitapp.ejemplo.models;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.math.BigDecimal;
@@ -27,6 +28,7 @@ class AccountTest {
         Account account = new Account("Jane Doe", new BigDecimal("2000.54321"));
 
         assertEquals(2000.54321, account.getBalance().doubleValue());
+        assertNotNull(account.getBalance());
         assertFalse(() -> account.getBalance().compareTo(BigDecimal.ZERO) < 0);
         assertTrue(() -> account.getBalance().compareTo(BigDecimal.ZERO) > 0);
     }
@@ -40,4 +42,23 @@ class AccountTest {
         assertEquals(account2, account1);
     }
 
+    @Test
+    void testDebitAccount() {
+        Account account = new Account("John Doe", new BigDecimal("1000.12346"));
+        account.debit(new BigDecimal("100.00"));
+
+        assertNotNull(account.getBalance());
+        assertEquals(900, account.getBalance().intValue());
+        assertEquals("900.12346", account.getBalance().toPlainString());
+    }
+
+    @Test
+    void testCreditAccount() {
+        Account account = new Account("John Doe", new BigDecimal("1000.12346"));
+        account.credit(new BigDecimal("100.00"));
+
+        assertNotNull(account.getBalance());
+        assertEquals(1100, account.getBalance().intValue());
+        assertEquals("1100.12346", account.getBalance().toPlainString());
+    }
 }
